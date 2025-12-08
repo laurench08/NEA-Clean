@@ -1,7 +1,10 @@
 using System.Data;
 using System.Data.SqlClient;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using UnityEngine.Tilemaps;
+using static UnityEditor.FilePathAttribute;
 
 
 public class Player : MonoBehaviour
@@ -11,9 +14,12 @@ public class Player : MonoBehaviour
     public int Health = 100;
     public int playerNum;
     public int Coins = 100;
+    public TileManager tilemgr;
 
     private int Level;
 
+
+    public Tilemap tilemap;
 
     //----movement----
     public InputAction moveAction;
@@ -32,18 +38,83 @@ public class Player : MonoBehaviour
 
     void Start()
     {
+        
         moveAction.Enable();
+        tilemgr = GameObject.Find("Grid").GetComponent<TileManager>();
+
         rigidbody2d = GetComponent<Rigidbody2D>();
+        move = new Vector2();
+        Vector3Int location = tilemap.WorldToCell(playerTransform.position);
+        Debug.Log($"Tried to dig at cell X:{location.x} Y:{location.y} Z:{location.z}");
     }
 
     // Update is called once per frame
     void Update()
     {
         move = moveAction.ReadValue<Vector2>();
-        Debug.Log($"Player position: {move}");
+        Debug.Log($"Player position: {move.x} {move.y}");
 
+        // dig action
+
+        if (Input.GetKeyDown(KeyCode.P)) 
+        {
+            tryToDig();
+
+        }
+        if (Input.GetKeyDown(KeyCode.G))
+        {
+            TryToPlant();
+
+        }
+        Vector3Int location = tilemap.WorldToCell(playerTransform.position);
+        Debug.Log($"Tried to dig at cell X:{location.x} Y:{location.y} Z:{location.z}");
+    }
+
+    private void tryToDig()
+    {
+        Vector3Int location = tilemap.WorldToCell(playerTransform.position);
+
+        if (tilemap.HasTile(location))
+        {
+            Debug.Log($"Tried to dig at cell X:{location.x} Y:{location.y} Z:{location.z}");
+            // get the image of the tilemap at position
+
+            Tile t = tilemgr.getTile(location.x, location.y);
+            t.tileSprite = tilemap.GetSprite(location);
+            if (t.isDiggable)
+            {
+                Debug.Log($"I can dig here");
+                tilemgr.Dig(location, t);
+              //  TryToPlant();
+            }
+            else
+            {
+                Debug.Log($"Can't dig here");
+
+            }
+        }
+    }
+
+    private void TryToPlant()
+    {
+        // check sprite of tile 
+        Vector3Int location = tilemap.WorldToCell(playerTransform.position);
+        if (tilemap.HasTile(location))
+        {
+            Debug.Log($"Tried to plant  at cell X:{location.x} Y:{location.y} Z:{location.z}");
+            TileBase t = tilemgr.getTile(location.x, location.y);
+            if (t == tilemgr.dirtTile)
+            {
+                Debug.Log("YOU CAN PLANT HERE!!");
+            }
+            else
+            {
+                Debug.Log("cant plant here....");
+            }
+        }
 
     }
+
 
     private void FixedUpdate()
     {
@@ -193,7 +264,17 @@ public class Player : MonoBehaviour
         playerNum = playerID;
     }
 
+    public void Dig()
+    {
+        //check player position, first
+       // Vector2Int currentPos = move.ConvertTo<Vector2Int>();
+        //Vector3Int temp = currentPos.ConvertTo<Vector3Int>();
+      //Debug.Log(tilemap.GetTile(temp));
 
+
+
+
+    }
 
 
 
