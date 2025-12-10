@@ -1,56 +1,31 @@
 using System.Collections;
-using UnityEngine;
-
-public class Plant : MonoBehaviour
+public class Plant 
 {
-    public int GrowthStage;
+    protected int GrowthStage;
     public bool isPlanted;
     public bool isHarvested;
+    public string Name;
 
-    public Sprite FirstStage;
-    public Sprite SecondStage;
-    public Sprite ThirdStage;
+//    public Sprite FirstStage;
+//    public Sprite SecondStage;
+//    public Sprite ThirdStage;
 
-    private Sprite CurrentSprite;
+ //   public Sprite CurrentSprite;
     // how it will work: if it is planted then after _ seconds then growth stage++ and sprite change to whichever sstage it is e.g. 1 = 1, 2 = 2 etc.
     //
 
-    void Start()
+    public Plant(string name)
     {
-        if (!isPlanted)
-        {
-            GrowthStage = 0;
-        }
+        GrowthStage = 0;
+        Name = name;
     }
+    
 
-    void Update()
-    {
-        
-    }
 
-    public void Grow()
+    public virtual string Grow()
     {
-        if (GrowthStage == 3)
-        {
-            Debug.Log("ALREADY AT MAX STAGE ");
-        }
-        else if (GrowthStage < 3)
-        {   
-            GrowthStage++;
-            if (GrowthStage == 1)
-            {
-                CurrentSprite = FirstStage;
-            }
-            else if (GrowthStage == 2)
-            {
-                CurrentSprite = SecondStage;
-            }
-            else if (GrowthStage == 3)
-            {
-                CurrentSprite = ThirdStage;
-            }
-        }
-         
+        GrowthStage += 1;
+        return $"Plant {Name} has grown to size {GrowthStage}";
 
     }
 }

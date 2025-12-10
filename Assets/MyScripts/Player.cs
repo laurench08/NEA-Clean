@@ -1,10 +1,7 @@
-using System.Data;
 using System.Data.SqlClient;
-using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.Tilemaps;
-using static UnityEditor.FilePathAttribute;
 
 
 public class Player : MonoBehaviour
@@ -14,12 +11,15 @@ public class Player : MonoBehaviour
     public int Health = 100;
     public int playerNum;
     public int Coins = 100;
+
     public TileManager tilemgr;
+    public Tile currentTile;
+    public Tilemap tilemap;
 
     private int Level;
+    private InventoryManager inventoryManager;
 
 
-    public Tilemap tilemap;
 
     //----movement----
     public InputAction moveAction;
@@ -38,7 +38,7 @@ public class Player : MonoBehaviour
 
     void Start()
     {
-        
+        inventoryManager = GameObject.Find("InventoryCanvas").GetComponent<InventoryManager>();
         moveAction.Enable();
         tilemgr = GameObject.Find("Grid").GetComponent<TileManager>();
 
@@ -56,7 +56,7 @@ public class Player : MonoBehaviour
 
         // dig action
 
-        if (Input.GetKeyDown(KeyCode.P)) 
+        if (Input.GetKeyDown(KeyCode.P))
         {
             tryToDig();
 
@@ -67,7 +67,7 @@ public class Player : MonoBehaviour
 
         }
         Vector3Int location = tilemap.WorldToCell(playerTransform.position);
-        Debug.Log($"Tried to dig at cell X:{location.x} Y:{location.y} Z:{location.z}");
+        //Debug.Log($"Tried to dig at cell X:{location.x} Y:{location.y} Z:{location.z}");
     }
 
     private void tryToDig()
@@ -79,13 +79,13 @@ public class Player : MonoBehaviour
             Debug.Log($"Tried to dig at cell X:{location.x} Y:{location.y} Z:{location.z}");
             // get the image of the tilemap at position
 
-            Tile t = tilemgr.getTile(location.x, location.y);
-            t.tileSprite = tilemap.GetSprite(location);
-            if (t.isDiggable)
+            currentTile = tilemgr.getTile(location.x, location.y);
+           
+            if (currentTile.isDiggable)
             {
                 Debug.Log($"I can dig here");
-                tilemgr.Dig(location, t);
-              //  TryToPlant();
+                tilemgr.Dig(location, currentTile);
+                currentTile.tileBase = tilemgr.dirtTile;
             }
             else
             {
@@ -102,10 +102,12 @@ public class Player : MonoBehaviour
         if (tilemap.HasTile(location))
         {
             Debug.Log($"Tried to plant  at cell X:{location.x} Y:{location.y} Z:{location.z}");
-            TileBase t = tilemgr.getTile(location.x, location.y);
-            if (t == tilemgr.dirtTile)
+            if (currentTile.tileBase == tilemgr.dirtTile)
             {
                 Debug.Log("YOU CAN PLANT HERE!!");
+             //   tilemgr.Plant(location, currentTile);// WHY CANT I WALK ON THE TILE WHEN I MAKE A SEED TILE
+                currentTile.tileBase = tilemgr.seedTile;
+
             }
             else
             {
@@ -114,6 +116,7 @@ public class Player : MonoBehaviour
         }
 
     }
+
 
 
     private void FixedUpdate()
@@ -137,7 +140,7 @@ public class Player : MonoBehaviour
             command.Parameters.Add(playeridParam);
 
             SqlParameter nameParam = new SqlParameter();
-            
+
             nameParam.ParameterName = "@name";
             nameParam.Value = name;
             command.Parameters.Add(nameParam);
@@ -225,6 +228,7 @@ public class Player : MonoBehaviour
         if (newPlayer)
         {
             SetPlayerID();
+            newPlayer = false;
         }
 
         return newPlayer;
@@ -247,7 +251,7 @@ public class Player : MonoBehaviour
 
             while (reader.Read()) // while theres data present
             {
-                playerID++; 
+                playerID++;
                 Debug.Log(reader["PlayerID"].ToString());
 
                 Debug.Log("L2: player number set");
@@ -267,9 +271,9 @@ public class Player : MonoBehaviour
     public void Dig()
     {
         //check player position, first
-       // Vector2Int currentPos = move.ConvertTo<Vector2Int>();
+        // Vector2Int currentPos = move.ConvertTo<Vector2Int>();
         //Vector3Int temp = currentPos.ConvertTo<Vector3Int>();
-      //Debug.Log(tilemap.GetTile(temp));
+        //Debug.Log(tilemap.GetTile(temp));
 
 
 

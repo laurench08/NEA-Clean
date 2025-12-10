@@ -6,7 +6,9 @@ public class Tile : TileBase
     public bool isDiggable = true;
     public bool isPlantable;
     public Transform tilePos;
-    public Tilemap tilemap;
+    private TileManager tilemgr;
+
+    public Plant currentPlant;
 
     public TileBase tileBase;
     public Sprite tileSprite;
@@ -16,14 +18,19 @@ public class Tile : TileBase
 
    
 
-    void Start()
+    public void Start()
     {
-        //isDiggable = true;
+      
+        tilemgr = GameObject.Find("Grid").GetComponent<TileManager>();
     }
 
-    void Update()
+    public void Update()
     {
-
+        // Debug.Log($"Tile {realX} {realY} has had update called");
+        if (currentPlant != null)
+        {
+            Debug.Log( currentPlant.Grow());
+        }
     }
 
    

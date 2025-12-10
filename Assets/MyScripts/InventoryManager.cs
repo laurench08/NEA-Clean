@@ -78,6 +78,26 @@ public class InventoryManager : MonoBehaviour
         return fullInventory;
     }
 
+    public bool SearchFor(Item item)
+    {
+        bool itemFound = false;
+        for (int i = 0; i < itemSlots.Length; i++)
+        {
+            if (itemSlots[i] == item)
+            {
+                itemFound = true;
+            }
+        }
+        if (itemFound)
+        {
+            return true;
+        }
+        else
+        {
+            return false;
+        }
+    }
+
     public void LoadInventory()
     {
 
