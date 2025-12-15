@@ -7,7 +7,7 @@ public class Item : MonoBehaviour
     public int Price;
     public Sprite itemSprite;
 
-   // public GameObject item;
+
     public int Quantity;
     private InventoryManager inventoryManager;
 
@@ -30,7 +30,7 @@ public class Item : MonoBehaviour
         Debug.Log($"Player has collided with {Name}!");
         if (collision.gameObject.tag == "Player")
         {
-            inventoryManager.AddItem(Name, Quantity, itemSprite, Description);
+            inventoryManager.AddItem(Name, Quantity, itemSprite, Description);// this, this.GetType().ToString());
             Debug.Log($"added {Name} to inventory manager");
             Destroy(gameObject);
         }

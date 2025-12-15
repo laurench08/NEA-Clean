@@ -54,12 +54,10 @@ public class LeaderboardManager : MonoBehaviour
               
                 name = reader["Name"].ToString();
                 money = reader["Money"].ToString();
-                Debug.Log(name);
-                Debug.Log(money);
                 GameObject temp = GameObject.Find($"LBNameCoins{counter}");
-                Debug.Log(temp.name);
+                //Debug.Log(temp.name);
                 var nametxt = temp.transform.Find("LBNameText");
-                Debug.Log(nametxt.name);
+                //Debug.Log(nametxt.name);
                 nametxt.GetComponent<TextMeshProUGUI>().text = name;
 
                 temp.transform.Find("LBCoinText").GetComponent<TextMeshProUGUI>().text = money;

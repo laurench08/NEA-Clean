@@ -14,6 +14,10 @@ public class Slot : MonoBehaviour, IPointerClickHandler
     public string itemDescription;
     public Sprite emptySprite;
 
+    public Object itemObject;
+    public string itemObjectType;
+
+
     // ----item desc---
     public Image itemDescImage;
     public TMP_Text itemDescNameText;
@@ -49,7 +53,7 @@ public class Slot : MonoBehaviour, IPointerClickHandler
 
     }
 
-    public void AddItem(string name, int quantity, Sprite sprite, string description)
+    public void AddItem(string name, int quantity, Sprite sprite, string description)//, Object itemObject, string itemObjectType)
     {
         //assign variables
         this.itemName = name;
@@ -57,6 +61,8 @@ public class Slot : MonoBehaviour, IPointerClickHandler
         this.itemSprite = sprite;
         this.itemDescription = description;
         isSlotFull = true;
+        //this.itemObject = itemObject;
+        //this.itemObjectType = itemObjectType;
 
         quantityText.text = quantity.ToString();
         quantityText.enabled = true;

@@ -7,6 +7,7 @@ public class InventoryManager : MonoBehaviour
     public bool isMenuActivated;
 
 
+
     void Start()
     {
 
@@ -31,15 +32,16 @@ public class InventoryManager : MonoBehaviour
         }
     }
 
-    public void AddItem(string name, int quantity, Sprite sprite, string description)
+    public void AddItem(string name, int quantity, Sprite sprite, string description) // Object itemObject, string itemObjectType)
     {
 
         Debug.Log($"added: {name}, with description: {description}");
+     //   Debug.Log($"item object type: {itemObjectType}");
         for (int i = 0; i < itemSlots.Length; i++)
         {
             if (itemSlots[i].isSlotFull == false)
             {
-                itemSlots[i].AddItem(name, quantity, sprite, description); // add item to inventory and checking if  inventory is not full
+                itemSlots[i].AddItem(name, quantity, sprite, description); //, itemObject, itemObjectType); // add item to inventory and checking if  inventory is not full
                 return;
             }
 

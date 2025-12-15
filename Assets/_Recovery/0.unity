@@ -25628,6 +25628,8 @@ MonoBehaviour:
   grassTile: {fileID: 11400000, guid: 880a8d5c6f072dd47b731c4240b6d1bf, type: 2}
   seedTile: {fileID: 11400000, guid: 71016a640970f814183a2cc42eec0a90, type: 2}
   plantTile: {fileID: 11400000, guid: d19940f2ef52cb74da61f537d483483a, type: 2}
+  tomatoTile: {fileID: 11400000, guid: eb4a53f93ca7ca44199b60e215425240, type: 2}
+  tomatoSprite: {fileID: -4253247001869401473, guid: 8f7648ceb1d5faf41a81dca594f0ee1c, type: 3}
   tilemap: {fileID: 720888681}
 --- !u!1 &1343049885
 GameObject:
