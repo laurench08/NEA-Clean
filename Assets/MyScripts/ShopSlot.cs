@@ -53,7 +53,7 @@ public class ShopSlot : MonoBehaviour, IPointerClickHandler
         if (player.Coins >= item.Price  && item.Price != 0  )
         {
             Debug.Log($"about to buy {itemName} from shop");
-          //  inventoryManager.AddItem(item.name, item.Quantity, item.itemSprite, item.Description);
+            inventoryManager.AddItem(item.name, item.Quantity, item.itemSprite, item.Description);
             Debug.Log($"player coin amount: {player.Coins}");
             player.Coins = player.Coins - item.Price;
             Debug.Log($"player coin amount: {player.Coins}");

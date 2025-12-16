@@ -17,7 +17,7 @@ public class Tile : TileBase
     public int realY;
 
     //---plant----
-    float timer = 5f;
+    float timer = 3f;
 
 
 
@@ -25,7 +25,6 @@ public class Tile : TileBase
     public void Update()
     {
         tilemgr = GameObject.Find("Grid").GetComponent<TileManager>();
-        // Debug.Log($"Tile {realX} {realY} has had update called");
         if (currentPlant != null && !currentPlant.canHarvest)
         {
             if (timer > 0)  //make a timer for plant to grow/change tile
@@ -94,14 +93,14 @@ public class Tile : TileBase
             tilemgr.tilemap.SetTile(location, tilemgr.seedTile);
             Debug.Log("CHANGED TILE!!!! to seed");
             isPlantable = false;
-            currentPlant = new Vegetable("test", "description descritption");
+            currentPlant = new Vegetable("tomato", "juicy tomato");
             Debug.Log("5 SECONDS");
         }
     }
 
     public void RestTimer()
     {
-        timer = 5;
+        timer = 3;
     }
 
 
