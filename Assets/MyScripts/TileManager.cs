@@ -4,7 +4,7 @@ using UnityEngine.Tilemaps;
 public class TileManager : MonoBehaviour
 {
     public Tile[,] tileArray = new Tile[100, 100];
-    public Plant[,] plantArray = new Plant[100, 100];
+   // public Plant[,] plantArray = new Plant[100, 100];
 
     //-----------assets--------
     public TileBase dirtTile;
@@ -53,8 +53,11 @@ public class TileManager : MonoBehaviour
     {
         for (int i = 0; i < 100; i++)
             for (int j = 0; j < 100; j++)
-                tileArray[i, j].Update();
+                tileArray[i, j].Update(); // constantly checking each tile
     }
 
    
+
+
+
 }

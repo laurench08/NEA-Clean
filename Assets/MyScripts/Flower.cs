@@ -1,16 +1,16 @@
 using System.Collections;
 using UnityEngine;
 
-public class Vegetable : Plant
+public class Flower : Plant
 {
-   
-    public Vegetable(string s, string description) : base (s, description)
+    
+    public Flower(string s, string description) : base (s, description)
     {
 
     }
     public override string Grow() // make it grow at a slower rate
     {
-        timer = 10.0f;
+        timer = 3.0f;
 
         if (GrowthStage < 3)
         {
@@ -24,5 +24,9 @@ public class Vegetable : Plant
 
     }
 
-
+    /*public override string Grow()
+    {
+        GrowthStage += 1;
+        return $"veg grown by 2 to {GrowthStage}";
+    }*/
 }

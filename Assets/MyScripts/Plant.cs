@@ -5,8 +5,10 @@ public class Plant
     public bool isPlanted;
     public bool canHarvest;
     public string Name;
-
     public string Description;
+
+    //time to grow one stage
+    public float timer = 5f;
 
     public bool hasGrown = false;
 
@@ -22,12 +24,7 @@ public class Plant
    
     public virtual void Harvest()
     {
-        if (canHarvest)
-        {
-            //harvest it and amke it appear in inventory 
-            
-
-        }
+   
     }
 
     public virtual string Grow()

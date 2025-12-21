@@ -1,5 +1,4 @@
 using System.Data.SqlClient;
-using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.Tilemaps;
@@ -47,15 +46,13 @@ public class Player : MonoBehaviour
         move = new Vector2();
         Vector3Int location = tilemap.WorldToCell(playerTransform.position);
         Debug.Log($"Tried to dig at cell X:{location.x} Y:{location.y} Z:{location.z}");
-     //   currentTile = new Tile();
     }
 
-    // Update is called once per frame
     void Update()
     {
         move = moveAction.ReadValue<Vector2>();
         Debug.Log($"Player position: {move.x} {move.y}");
-        
+
 
         if (Input.GetKeyDown(KeyCode.P))
         {
@@ -64,7 +61,12 @@ public class Player : MonoBehaviour
         }
         if (Input.GetKeyDown(KeyCode.G))
         {
-            TryToPlant();
+            TryToPlant(0);
+
+        }
+        if (Input.GetKeyDown(KeyCode.B))
+        {
+            TryToPlant(1);
 
         }
         if (Input.GetKeyDown(KeyCode.H))
@@ -72,7 +74,8 @@ public class Player : MonoBehaviour
             TryToHarvest();
         }
         Vector3Int location = tilemap.WorldToCell(playerTransform.position);
-       
+        currentTile = tilemgr.getTile(location.x, location.y);
+
     }
 
     private void tryToDig()
@@ -82,10 +85,9 @@ public class Player : MonoBehaviour
         if (tilemap.HasTile(location))
         {
             Debug.Log($"Tried to dig at cell X:{location.x} Y:{location.y} Z:{location.z}");
-            // get the image of the tilemap at position
 
-            currentTile = tilemgr.getTile(location.x, location.y);
-           
+            //currentTile = tilemgr.getTile(location.x, location.y);
+
             if (currentTile.isDiggable)
             {
                 Debug.Log($"I can dig here, current tile is {currentTile}");
@@ -95,14 +97,13 @@ public class Player : MonoBehaviour
             else
             {
                 Debug.Log($"Can't dig here");
-
             }
         }
     }
 
-    private void TryToPlant()
+    private void TryToPlant(int plantType)
     {
-     
+
         Vector3Int location = tilemap.WorldToCell(playerTransform.position);
         if (tilemap.HasTile(location))
         {
@@ -110,7 +111,7 @@ public class Player : MonoBehaviour
             if (currentTile.isPlantable)
             {
                 Debug.Log("YOU CAN PLANT HERE!!");
-                currentTile.Plant(location);
+                currentTile.Plant(location, plantType);
                 currentTile.tileBase = tilemgr.seedTile;
             }
             else
@@ -127,17 +128,15 @@ public class Player : MonoBehaviour
         if (tilemap.HasTile(location))
         {
             Debug.Log($"Tried to harvest  at cell X:{location.x} Y:{location.y} Z:{location.z}");
-            if (currentTile.currentPlant.canHarvest)
+            if (currentTile.currentPlant == null)
             {
-                inventoryManager.AddItem(currentTile.currentPlant.Name, 1, tilemgr.tomatoSprite, currentTile.currentPlant.Description); // currentTile.currentPlant, currentTile.currentPlant.GetType().ToString());
-                
-
-
+                 Debug.Log("cant harvest here.......... current plant IS NULL.");
             }
-
+            else if (currentTile.currentPlant.canHarvest)
+            {
+               inventoryManager.AddItem(currentTile.currentPlant.Name, 1, tilemgr.tomatoSprite, currentTile.currentPlant.Description);
+            }
         }
-
-
     }
 
 

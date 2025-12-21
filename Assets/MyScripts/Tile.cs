@@ -53,10 +53,19 @@ public class Tile : TileBase
         {
             case 2:
                 tilemgr.tilemap.SetTile(location, tilemgr.plantTile); // same for all plants
-                RestTimer(); // so it can grow another stage
+                ChangeTimerTime(currentPlant.timer); // so it can grow another stage
                 break;
             case 3:
-                tilemgr.tilemap.SetTile(location, tilemgr.tomatoTile); // stage 3 is final stage
+                if (currentPlant is Flower)
+                {
+                    tilemgr.tilemap.SetTile(location, tilemgr.plantTile); // stage 3 is final stage
+                    
+                }
+                else if (currentPlant is Vegetable)
+                {
+                    tilemgr.tilemap.SetTile(location, tilemgr.tomatoTile); 
+                    
+                }
                 break;
             default:
                 Debug.Log($"growth stage: {currentGS} // should be 1 or 3");
@@ -84,7 +93,7 @@ public class Tile : TileBase
     }
 
 
-    public void Plant(Vector3Int location)
+    public void Plant(Vector3Int location, int plantType = 0)
     {
         if (isPlantable)
         {
@@ -93,17 +102,25 @@ public class Tile : TileBase
             tilemgr.tilemap.SetTile(location, tilemgr.seedTile);
             Debug.Log("CHANGED TILE!!!! to seed");
             isPlantable = false;
-            currentPlant = new Vegetable("tomato", "juicy tomato");
-            Debug.Log("5 SECONDS");
+            switch (plantType)
+            {
+                case 0:
+                    currentPlant = new Vegetable("tomato", "juicy tomato");
+                    break;
+                case 1:
+                    currentPlant = new Flower("rose", "juicy rose");
+                    break;
+            }
+            // tilemgr.SetPlant(location.x, location.y, currentPlant);
+            Debug.Log("3 SECONDS");
         }
     }
 
-    public void RestTimer()
+   
+    public void ChangeTimerTime(float time)
     {
-        timer = 3;
+        timer = time;
     }
-
-
 
 }
 
