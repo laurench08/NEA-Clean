@@ -24,9 +24,4 @@ public class Flower : Plant
 
     }
 
-    /*public override string Grow()
-    {
-        GrowthStage += 1;
-        return $"veg grown by 2 to {GrowthStage}";
-    }*/
 }

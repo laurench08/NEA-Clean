@@ -1,5 +1,4 @@
 using TMPro;
-using UnityEditor.UIElements;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
@@ -24,6 +23,7 @@ public class ShopSlot : MonoBehaviour, IPointerClickHandler
     public GameObject selectedItem;
     public bool thisItemSelected;
     public bool isSlotFull;
+    
 
     private InventoryManager inventoryManager;
     private ShopManager shopManager;
@@ -36,10 +36,7 @@ public class ShopSlot : MonoBehaviour, IPointerClickHandler
         shopManager = GameObject.Find("ShopCanvas").GetComponent<ShopManager>();
         Debug.Log("Shop manager found!");
         player = GameObject.Find("Player").GetComponent<Player>();
-
     }
-
-
     void Update()
     {
 
@@ -48,9 +45,8 @@ public class ShopSlot : MonoBehaviour, IPointerClickHandler
     public void BuyItem(Item item)
     {
         //copy item into inventory
-        //remove from shop inventory
 
-        if (player.Coins >= item.Price  && item.Price != 0  )
+        if (player.Coins >= item.Price && item.Price != 0)
         {
             Debug.Log($"about to buy {itemName} from shop");
             inventoryManager.AddItem(item.name, item.Quantity, item.itemSprite, item.Description);
@@ -62,8 +58,6 @@ public class ShopSlot : MonoBehaviour, IPointerClickHandler
         {
             Debug.Log("you dont have enough !");
         }
-
-
     }
 
     public void OnPointerClick(PointerEventData eventData)
@@ -89,11 +83,5 @@ public class ShopSlot : MonoBehaviour, IPointerClickHandler
         {
             Debug.Log("CANNOT BUY ");
         }
-
     }
-
-
-
-
-
 }

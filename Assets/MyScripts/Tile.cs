@@ -93,7 +93,7 @@ public class Tile : TileBase
     }
 
 
-    public void Plant(Vector3Int location, int plantType = 0)
+    public void Plant(Vector3Int location, int plantType)
     {
         if (isPlantable)
         {

@@ -53,7 +53,7 @@ public class Slot : MonoBehaviour, IPointerClickHandler
 
     }
 
-    public void AddItem(string name, int quantity, Sprite sprite, string description)//, Object itemObject, string itemObjectType)
+    public void AddItem(string name, int quantity, Sprite sprite, string description)
     {
         //assign variables
         this.itemName = name;
@@ -61,8 +61,6 @@ public class Slot : MonoBehaviour, IPointerClickHandler
         this.itemSprite = sprite;
         this.itemDescription = description;
         isSlotFull = true;
-        //this.itemObject = itemObject;
-        //this.itemObjectType = itemObjectType;
 
         quantityText.text = quantity.ToString();
         quantityText.enabled = true;
@@ -97,8 +95,6 @@ public class Slot : MonoBehaviour, IPointerClickHandler
         //check if slot is empty
         if (this.isSlotFull && this.thisItemSelected)
         {
-           // Debug.Log(selectedItem.GetComponent<Item>().Name);
-
             //create a new item, copy the script into temproary one
             GameObject itemToDrop = new GameObject(itemName);
             Item newItem = itemToDrop.AddComponent<Item>();
@@ -131,11 +127,8 @@ public class Slot : MonoBehaviour, IPointerClickHandler
         {
             Debug.Log("slot is empty");
         }
-
-
-
-
     }
+
     private void EmptySlot()
     {
         quantityText.enabled = false;
@@ -146,30 +139,4 @@ public class Slot : MonoBehaviour, IPointerClickHandler
         itemDescText.text = "";
         itemDescImage.sprite = emptySprite;
     }
-
-
-    public Item GetItem()
-    {
-
-        return null;
-    }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 }

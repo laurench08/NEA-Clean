@@ -13,19 +13,20 @@ public class ShopManager : MonoBehaviour
     public Button sellItemButton;
     public GameObject SellItemBackground;
     public Slot[] inventory;
+    public GameObject confirmSellItemScreen;
 
     void Start()
     {
         shopUI.SetActive(false);
         inventoryManager = GameObject.Find("InventoryCanvas").GetComponent<InventoryManager>();
         sellItemButton.onClick.AddListener(TaskOnClick);
-        
+         
     }
 
     
     void Update()
     {
-        
+          inventory = inventoryManager.sellItemSlots;
     }
 
 
@@ -34,21 +35,29 @@ public class ShopManager : MonoBehaviour
     {
         for (int i = 0; i < shopSlots.Length; i++)
         {
-            //Debug.Log($"item slot: {itemSlots[i]}");
             Debug.Log($"shop item selected: {shopSlots[i].selectedItem}");
             shopSlots[i].selectedItem.SetActive(false);
             shopSlots[i].thisItemSelected = false;
         }
     }
 
-    public void TaskOnClick()
+    public void TaskOnClick()// when opening the sell item menu
     {
         shopkeeperSpeech.text = "Pick an item from your inventory you wish to sell: ";// show a list of your items 
         SellItemBackground.SetActive(true);
-        inventory = inventoryManager.itemSlots;
+        //SellItem();
         
-
     }
 
+    public void SellItem()
+    {
+        for (int i = 0; i < inventory.Length; i++)
+        {
+            if (inventory[i].selectedItem != null)
+            {
+                confirmSellItemScreen.SetActive(true);
+            }
+        }
 
+    }
 }

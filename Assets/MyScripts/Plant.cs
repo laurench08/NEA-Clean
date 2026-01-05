@@ -13,7 +13,6 @@ public class Plant
     public bool hasGrown = false;
 
     // how it will work: if it is planted then after _ seconds then growth stage++ and sprite change to whichever sstage it is e.g. 1 = 1, 2 = 2 etc.
-    //
 
     public Plant(string name, string description)
     {

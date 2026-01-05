@@ -56,8 +56,4 @@ public class TileManager : MonoBehaviour
                 tileArray[i, j].Update(); // constantly checking each tile
     }
 
-   
-
-
-
 }
