@@ -4,7 +4,7 @@ using UnityEngine.Tilemaps;
 public class TileManager : MonoBehaviour
 {
     public Tile[,] tileArray = new Tile[100, 100];
-   // public Plant[,] plantArray = new Plant[100, 100];
+
 
     //-----------assets--------
     public TileBase dirtTile;
@@ -36,7 +36,7 @@ public class TileManager : MonoBehaviour
 
     public Tile getTile(int x, int y)
     {
-        //  Normaliza x,y to not be negative, starting at the ss
+        //  Normalize x,y to not be negative, starting at the ss
         int tileArrayX = x + 30;
         int tileArrayY = y + 14;
 

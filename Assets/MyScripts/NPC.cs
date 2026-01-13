@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.Tilemaps;
 
 public class NPC : MonoBehaviour
 {
@@ -9,8 +10,12 @@ public class NPC : MonoBehaviour
     public Item dropitem;
     public int defence;
 
+    public TileManager tilemgr;
+    public Tile currentTile;
+    public Tilemap tilemap;
 
-   
+
+
     void Start()
     {
         

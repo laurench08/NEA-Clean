@@ -21,10 +21,7 @@ public class Plant
         Description = description; 
     }
    
-    public virtual void Harvest()
-    {
    
-    }
 
     public virtual string Grow()
     {

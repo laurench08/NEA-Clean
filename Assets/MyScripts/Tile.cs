@@ -25,25 +25,7 @@ public class Tile : TileBase
     public void Update()
     {
         tilemgr = GameObject.Find("Grid").GetComponent<TileManager>();
-        if (currentPlant != null && !currentPlant.canHarvest)
-        {
-            if (timer > 0)  //make a timer for plant to grow/change tile
-            {
-                Debug.Log(timer);
-                timer -= Time.deltaTime;
-            }
-            else
-            {
-                // call grow function
-                currentPlant.Grow();
-                ChangeGrowthSprite(locationOnTileMap);
-
-            }
-        }
-        else if (currentPlant == null)
-        {
-            isDiggable = true;
-        }
+        CheckTileStatus();
     }
 
     public void ChangeGrowthSprite(Vector3Int location) // to change sprite based on growth stage of plant
@@ -68,7 +50,7 @@ public class Tile : TileBase
                 }
                 break;
             default:
-                Debug.Log($"growth stage: {currentGS} // should be 1 or 3");
+                Debug.Log($"growth stage: {currentGS} // should be 1");
                 break;
         }
 
@@ -111,16 +93,54 @@ public class Tile : TileBase
                     currentPlant = new Flower("rose", "juicy rose");
                     break;
             }
-            // tilemgr.SetPlant(location.x, location.y, currentPlant);
             Debug.Log("3 SECONDS");
         }
     }
 
-   
+    public void CheckTileStatus()
+    {
+        if (currentPlant != null && !currentPlant.canHarvest)
+        {
+            if (timer > 0)  //make a timer for plant to grow/change tile
+            {
+                Debug.Log(timer);
+                timer -= Time.deltaTime;
+            }
+            else
+            {
+                // call grow function
+                currentPlant.Grow();
+                ChangeGrowthSprite(locationOnTileMap);
+
+            }
+        }
+        else if (currentPlant == null)
+        {
+            isDiggable = true;
+        }
+    }
+
+    public void Harvest(Vector3Int location)
+    {
+        if (currentPlant.canHarvest)
+        {
+            locationOnTileMap = location;
+            Debug.Log("preparing to harvest.....");
+            tileBase = tilemgr.dirtTile;
+            tilemgr.tilemap.SetTile(location, tilemgr.dirtTile);
+            Debug.Log("CHANGED TILE!!!! to dirt");
+            isDiggable = false;
+            currentPlant.canHarvest = false;
+            currentPlant = null;
+            isPlantable = true;
+        }
+    }
+
     public void ChangeTimerTime(float time)
     {
         timer = time;
     }
+
 
 }
 

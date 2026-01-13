@@ -86,8 +86,6 @@ public class Player : MonoBehaviour
         {
             Debug.Log($"Tried to dig at cell X:{location.x} Y:{location.y} Z:{location.z}");
 
-            //currentTile = tilemgr.getTile(location.x, location.y);
-
             if (currentTile.isDiggable)
             {
                 Debug.Log($"I can dig here, current tile is {currentTile}");
@@ -130,11 +128,13 @@ public class Player : MonoBehaviour
             Debug.Log($"Tried to harvest  at cell X:{location.x} Y:{location.y} Z:{location.z}");
             if (currentTile.currentPlant == null)
             {
-                 Debug.Log("cant harvest here.......... current plant IS NULL.");
+                Debug.Log("cant harvest here.......... current plant IS NULL.");
             }
             else if (currentTile.currentPlant.canHarvest)
             {
-               inventoryManager.AddItem(currentTile.currentPlant.Name, 1, tilemgr.tomatoSprite, currentTile.currentPlant.Description);
+                inventoryManager.AddItem(currentTile.currentPlant.Name, 1, tilemgr.tomatoSprite, currentTile.currentPlant.Description);
+                currentTile.Harvest(location);
+                //currentTile.currentPlant.canHarvest = false;
             }
         }
     }
@@ -165,8 +165,7 @@ public class Player : MonoBehaviour
             nameParam.ParameterName = "@name";
             nameParam.Value = name;
             command.Parameters.Add(nameParam);
-            //command.Parameters.Add(nameParam.ParameterName, SqlDbType.NVarChar);
-            //command.Parameters[nameParam.ParameterName].Value = name;
+        
 
             SqlParameter healthParam = new SqlParameter();
             healthParam.ParameterName = "@health";
@@ -249,7 +248,7 @@ public class Player : MonoBehaviour
         if (newPlayer)
         {
             SetPlayerID();
-            newPlayer = false;
+            // newPlayer = false;
         }
 
         return newPlayer;
@@ -268,22 +267,22 @@ public class Player : MonoBehaviour
         {
             reader.Read(); //reads the data from database
             Debug.Log(int.Parse(reader["PlayerID"].ToString()));
-            playerID = int.Parse(reader["PlayerID"].ToString());
+            //playerID = int.Parse(reader["PlayerID"].ToString());
 
             while (reader.Read()) // while theres data present
             {
                 playerID++;
                 Debug.Log(reader["PlayerID"].ToString());
 
-                Debug.Log("L2: player number set");
+
             }
-            if (!reader.Read()) //if nothing found 
+            /*if (!reader.Read()) //if nothing found 
             {
                 playerID++;
                 Debug.Log("L1: player number set");
 
-            }
-
+            }*/
+            Debug.Log("L2: player number set");
         }
         sqlConnection.Close();
         playerNum = playerID;

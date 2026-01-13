@@ -14,8 +14,7 @@ public class Slot : MonoBehaviour, IPointerClickHandler
     public string itemDescription;
     public Sprite emptySprite;
 
-    public Object itemObject;
-    public string itemObjectType;
+
 
 
     // ----item desc---
@@ -84,13 +83,21 @@ public class Slot : MonoBehaviour, IPointerClickHandler
         selectedItem.SetActive(true);
         thisItemSelected = true;
 
+        if (gameObject.transform.parent.name == "inventoryScreen")
+        {
+            itemDescNameText.text = itemName;
+            itemDescText.text = itemDescription;
+            itemDescImage.sprite = itemSprite;
+            Debug.Log("THIS PARENT NAME IS INVENTORY SCREEN");
+        }
+        else if (gameObject.transform.parent.name == "SellItemBackground")
+        {
+            Debug.Log("THIS PARENT NAME IS SELL ITEM BACKGROUND");
+        }
 
-        itemDescNameText.text = itemName;
-        itemDescText.text = itemDescription;
-        itemDescImage.sprite = itemSprite;
     }
 
-    public void TaskOnClick()
+    public void TaskOnClick() // for button
     {
         //check if slot is empty
         if (this.isSlotFull && this.thisItemSelected)
