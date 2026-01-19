@@ -2,6 +2,7 @@ using System.Data.SqlClient;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.Tilemaps;
+using UnityEngine.UI;
 
 
 public class Player : MonoBehaviour
@@ -19,7 +20,7 @@ public class Player : MonoBehaviour
     private int Level;
     private InventoryManager inventoryManager;
 
-
+    public Button saveButton;
 
     //----movement----
     public InputAction moveAction;
@@ -46,6 +47,9 @@ public class Player : MonoBehaviour
         move = new Vector2();
         Vector3Int location = tilemap.WorldToCell(playerTransform.position);
         Debug.Log($"Tried to dig at cell X:{location.x} Y:{location.y} Z:{location.z}");
+
+        saveButton.onClick.AddListener(SaveGame);
+
     }
 
     void Update()
@@ -165,7 +169,7 @@ public class Player : MonoBehaviour
             nameParam.ParameterName = "@name";
             nameParam.Value = name;
             command.Parameters.Add(nameParam);
-        
+
 
             SqlParameter healthParam = new SqlParameter();
             healthParam.ParameterName = "@health";
@@ -226,15 +230,15 @@ public class Player : MonoBehaviour
         using (SqlDataReader reader = command.ExecuteReader())
         {
             reader.Read();
-            Debug.Log(reader.HasRows);
-            if (reader.HasRows && reader["Name"].ToString() != name) // for new players
+          //  Debug.Log(reader.HasRows);
+            if (reader["Name"].ToString() != name) // for new players
             {
                 newPlayer = true;
                 Debug.Log("L1: setting player id....................");
 
 
             }
-            else if (reader.HasRows && reader["Name"].ToString() == name) //for not new players
+            else if (reader["Name"].ToString() == name) //for not new players
             {
                 Debug.Log("player is not new");
             }
@@ -260,19 +264,18 @@ public class Player : MonoBehaviour
 
     public void SetPlayerID()
     {
-        int playerID = 0;
+        int playerID = 1;
         sqlConnection.Open();
         SqlCommand command = new SqlCommand("SELECT * FROM Player", sqlConnection);// loop through database 
         using (SqlDataReader reader = command.ExecuteReader())
         {
-            reader.Read(); //reads the data from database
-            Debug.Log(int.Parse(reader["PlayerID"].ToString()));
-            //playerID = int.Parse(reader["PlayerID"].ToString());
 
             while (reader.Read()) // while theres data present
             {
+                Debug.Log("before" + playerID);
                 playerID++;
                 Debug.Log(reader["PlayerID"].ToString());
+                Debug.Log("after" +playerID);
 
 
             }
@@ -286,6 +289,40 @@ public class Player : MonoBehaviour
         }
         sqlConnection.Close();
         playerNum = playerID;
+    }
+
+    public void SaveGame()
+    {
+        //when save button is clicked then take player name open database, etc.
+        if (PlayerName != null)
+        {
+            sqlConnection.Open();
+
+            SqlCommand command = new SqlCommand("UPDATE Player SET Level = @level, Money = @money, Health = @health WHERE Name = @name", sqlConnection);
+            SqlParameter levelParam = new SqlParameter();
+            levelParam.ParameterName = "@level";
+            levelParam.Value = Level;
+            command.Parameters.Add(levelParam);
+
+            SqlParameter healthParam = new SqlParameter();
+            healthParam.ParameterName = "@health";
+            healthParam.Value = Health;
+            command.Parameters.Add(healthParam);
+
+            SqlParameter moneyParam = new SqlParameter();
+            moneyParam.ParameterName = "@money";
+            moneyParam.Value = Coins;
+            command.Parameters.Add(moneyParam);
+
+            SqlParameter nameParam = new SqlParameter();
+
+            nameParam.ParameterName = "@name";
+            nameParam.Value = PlayerName;
+            command.Parameters.Add(nameParam);
+            Debug.Log($"managed to update {PlayerName}'s info in database !!");
+            sqlConnection.Close();
+        }
+
     }
 
 
