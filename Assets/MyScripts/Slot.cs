@@ -14,14 +14,10 @@ public class Slot : MonoBehaviour, IPointerClickHandler
     public string itemDescription;
     public Sprite emptySprite;
 
-
-
-
     // ----item desc---
     public Image itemDescImage;
     public TMP_Text itemDescNameText;
     public TMP_Text itemDescText;
-
 
     //--- what slot will display ----
     [SerializeField]
@@ -44,12 +40,6 @@ public class Slot : MonoBehaviour, IPointerClickHandler
     {
         inventoryManager = GameObject.Find("InventoryCanvas").GetComponent<InventoryManager>();
         dropItemButton.onClick.AddListener(TaskOnClick);
-    }
-
-
-    void Update()
-    {
-
     }
 
     public void AddItem(string name, int quantity, Sprite sprite, string description)

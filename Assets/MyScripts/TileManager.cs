@@ -12,6 +12,7 @@ public class TileManager : MonoBehaviour
     public TileBase seedTile;
     public TileBase plantTile;
     public TileBase tomatoTile;
+    public TileBase flowerTile;
 
     public Sprite tomatoSprite;
     //-------------------------
@@ -54,6 +55,25 @@ public class TileManager : MonoBehaviour
         for (int i = 0; i < 100; i++)
             for (int j = 0; j < 100; j++)
                 tileArray[i, j].Update(); // constantly checking each tile
+    }
+
+    public bool isPlantPresent()
+    {
+        bool isPlantPresent = false;
+
+        for (int i = 0; i < 100; i++)
+        {
+            for (int j = 0; j < 100; j++)
+            {
+                if (tileArray[i, j].currentPlant!= null)
+                {
+                    isPlantPresent = true;
+                }
+            }
+        }
+        
+        return isPlantPresent;
+
     }
 
 }

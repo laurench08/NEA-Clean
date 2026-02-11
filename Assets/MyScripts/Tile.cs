@@ -40,7 +40,7 @@ public class Tile : TileBase
             case 3:
                 if (currentPlant is Flower)
                 {
-                    tilemgr.tilemap.SetTile(location, tilemgr.plantTile); // stage 3 is final stage
+                    tilemgr.tilemap.SetTile(location, tilemgr.flowerTile); // stage 3 is final stage
                     
                 }
                 else if (currentPlant is Vegetable)

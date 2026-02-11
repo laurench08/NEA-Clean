@@ -190,7 +190,7 @@ public class Player : MonoBehaviour
             Debug.Log($"player number is {playerNum}");
 
             Debug.Log($"{name} was added to database");
-            command.ExecuteNonQuery(); //!!!!!!!!!!!!!!!!!!!!!!!
+            command.ExecuteNonQuery();
             sqlConnection.Close();
         }
         else
@@ -230,7 +230,6 @@ public class Player : MonoBehaviour
         using (SqlDataReader reader = command.ExecuteReader())
         {
             reader.Read();
-          //  Debug.Log(reader.HasRows);
             if (reader["Name"].ToString() != name) // for new players
             {
                 newPlayer = true;
@@ -252,7 +251,6 @@ public class Player : MonoBehaviour
         if (newPlayer)
         {
             SetPlayerID();
-            // newPlayer = false;
         }
 
         return newPlayer;
@@ -279,12 +277,7 @@ public class Player : MonoBehaviour
 
 
             }
-            /*if (!reader.Read()) //if nothing found 
-            {
-                playerID++;
-                Debug.Log("L1: player number set");
-
-            }*/
+            
             Debug.Log("L2: player number set");
         }
         sqlConnection.Close();
